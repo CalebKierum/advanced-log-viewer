@@ -306,34 +306,34 @@ class SmartLogView(tk.Tk):
 def right_click_handler(e):
     try:
         def rClick_highlight(e, strng, apnd=0):
-            getGlobalRoot().highlightWord(strng)
+            getGlobalRoot().highlight_word(strng)
 
         def rClick_unhighlight(e, strng, apnd=0):
-            getGlobalRoot().unHighlightWord(strng)
+            getGlobalRoot().un_highlight_word(strng)
 
         e.widget.focus()
 
         optionList = []
 
 
-        highlighted = getGlobalRoot().getHighlightedWord()
+        highlighted = getGlobalRoot().get_highlighted_word()
         if highlighted is not None:
-            if getGlobalRoot().wordInHighlightList(highlighted):
+            if getGlobalRoot().word_in_highlight_list(highlighted):
                 optionList.append(('Un-Highlight:' + highlighted, lambda e=e: rClick_unhighlight(e, highlighted)))
             else:
                 optionList.append(('Highlight:' + highlighted, lambda e=e: rClick_highlight(e, highlighted)))
 
 
-        selected = getGlobalRoot().getSelectedWord()
+        selected = getGlobalRoot().get_selected_word()
         if selected is not None:
-            if getGlobalRoot().wordInHighlightList(selected):
+            if getGlobalRoot().word_in_highlight_list(selected):
                 optionList.append(('Un-Highlight:' + selected, lambda e=e: rClick_unhighlight(e, selected)))
             else:
                 optionList.append(('Highlight:' + selected, lambda e=e: rClick_highlight(e, selected)))
 
-        unhiglightDuty = getGlobalRoot().unHighlightDuty(selected, highlighted)
+        unhiglightDuty = getGlobalRoot().un_highlight_duty(selected, highlighted)
         for word in unhiglightDuty:
-            if getGlobalRoot().wordInHighlightList(word):
+            if getGlobalRoot().word_in_highlight_list(word):
                 optionList.append(('Un-Highlight:' + word, lambda e=e: rClick_unhighlight(e, word)))
 
         popupWindow = tk.Menu(None, tearoff=0, takefocus=0)
@@ -374,6 +374,7 @@ def open_display(width, height, linesOfView, specialReports, showPopUp, useExist
     window.set_highlight_list(existingHighlights)
 
     # Bind the right click menu
-    window.bind('<Button-2>',right_click_handler, add='')
+    window.bind('<Button-2>', right_click_handler, add='')
 
+    window.title("Advanced Log View")
     window.mainloop()

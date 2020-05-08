@@ -269,7 +269,7 @@ while linesOfFullLog:
         if (classSummaries_On):
             classMonitoringDict = class_monitor.get_state_dictionary(line, 0, 0)
             heiarchicalMontoringDict = class_monitor.heiarchical_dict_of_state_monitoring_dictionary(classMonitoringDict)
-            specialLogUpdates.append({"line":len(templist),"stateDict":heiarchicalMontoringDict, "reportTitle":"Object Update Montoring"})
+            specialLogUpdates.append({"line":len(templist),"stateDict":heiarchicalMontoringDict, "reportTitle":"2. Object Update Montoring"})
 
         if (classSummaries_AppearInLog):
             if (classSummaries_LeavePlaceholder):
@@ -289,7 +289,7 @@ while linesOfFullLog:
         if (stateTracking_On):
             classMonitoringDict = state_monitor.get_state_dictionary(line, 0, 0)
             heiarchicalMontoringDict = state_monitor.heiarchical_dict_of_state_monitoring_dictionary(classMonitoringDict)
-            specialLogUpdates.append({"line":len(templist), "stateDict":heiarchicalMontoringDict, "reportTitle":"State Update Montoring"})
+            specialLogUpdates.append({"line":len(templist), "stateDict":heiarchicalMontoringDict, "reportTitle":"1. State Update Montoring"})
 
         if (stateTracking_AppearInLog):
             if (stateTracking_LeavePlaceholder):
