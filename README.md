@@ -7,7 +7,7 @@ A python based cross-platform log viewer with powerful features like historical 
 3. Highlighting
 
 #### Screenshot
-![Full Screenshot](https://raw.githubusercontent.com/CalebKierum/Advanced-Log-Viewer/master/Images/Entire%20Screen.png)
+![Full Screenshot](Images/Entire%20Screen.png)
 
 ### Warning
 This is a beta software. I wrote this very quickly while also trying to get through University coursework. It is littered with typos and probably errors too. There will be bugs. Some of them may crash the software, others may cause the console to subtly print out warnings, others may cause correct input. For the most part it will be correct but if something really does not make sense make sure to look at the log in a different viewer or ignore the top view.
@@ -26,7 +26,7 @@ Right out of the box you can view any log with highlighting.
 
 Highlighting allows you to right click on any word or after highlighting some text and highlight all instances of a word. They can also be unhighlited from this menu.
 
-![Highlighting](https://raw.githubusercontent.com/CalebKierum/Advanced-Log-Viewer/master/Images/Higlight.png)
+![Highlighting](Images/Higlight.png)
 
 
 ### Summary View
@@ -63,7 +63,7 @@ TBD
 
 #### DSLabs
 
-![DSLabsUsage](https://raw.githubusercontent.com/CalebKierum/Advanced-Log-Viewer/master/Images/Console%20Summary.png)
+![DSLabsUsage](Images/Console%20Summary.png)
 
 This tool was specifically designed for this use case. To plug in your project all you need to do is add statements into the logging code so that the extra lines are printed out. You will want to join all output by piping it into a file
 ```
@@ -80,7 +80,7 @@ To populate the upper view you will need to add the `dslabs/Plugin/Alt.java` to 
 ##### Attaching State Updates
 State updates track any value you want to conceptually follow. So for example if I wanted to monitor what each server was doing at a given line in the log I could do `ALT.log("Server", address(), "state", "primary")` or `ALT.log("Server", address(), "state", "backup")` and the value `Server.server1.state` would be tracked. So all you need to do is make calls to `ALT.log(...)` which can take any length of arguments. 
 
-![State Updates](https://raw.githubusercontent.com/CalebKierum/Advanced-Log-Viewer/master/Images/State%20Update%20Monitoring.png)
+![State Updates](Images/State%20Update%20Monitoring.png)
 
 ##### Attaching Class Updates
 This framework can also track your Node's and every variable (including private) within them. Essentially you need to pass the node into the framework with `ALT.trackNode(object)` at some point... preferably in the constructor. For the most part ALT will take care of everything as it holds a weak reference so it should not effect tests.
@@ -96,7 +96,7 @@ Please note that the framework has the option to serialize/deserialize this obje
 
 Now in order to decrease printing you do have to call `refresh()` every time you want ALT to check and report new values. I recommend calling refresh from the end of every message handler etc.
 
-![Class Updates](https://raw.githubusercontent.com/CalebKierum/Advanced-Log-Viewer/master/Images/Object%20Update%20Monitoring.png)
+![Class Updates](Images/Object%20Update%20Monitoring.png)
 
 ## Feature Requests
 Please open any and all feature requests as Issues
