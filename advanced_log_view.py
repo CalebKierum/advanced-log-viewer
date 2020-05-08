@@ -82,10 +82,12 @@ class TopWindow(tk.Text):
 
     def set_new_text(self, text):
         if (text != self.lastText):
+            vw = self.yview()
             self.delete(1.0, "end")
             self.insert(tk.INSERT, text)
             #self.update_size(None)
             self.lastText = text
+            self.yview_moveto(vw[0])
 
     def refresh(self, linenum):
         text_build = ""
