@@ -10,7 +10,7 @@ assert(len(sys.argv) > 1)
 import time
 
 
-import logReadTools
+import log_read_tools
 
 settings = {}
 reportArgs = ""
@@ -24,7 +24,7 @@ def __getNextArgOrAsk(message):
         if ("X" is not value):
             print(message + value)
             return value
-    
+
     return input(message)
 
 def getNextArgOrAsk(message):
@@ -42,12 +42,12 @@ print("Preparing to open file " + filename + "...")
 #       What tests are in this?
 #       Is the test passed, failed, unknown
 #       Does the test have an assert or an error in it
-logFileString = logReadTools.readFileToString(filename)
+logFileString = log_read_tools.read_file_to_string(filename)
 print("Finished reading the file")
 print("Working on summary")
 
 # Step 1a get the log split up into summary parts
-testBreakup = logReadTools.getFirstLastLineList(logFileString)
+testBreakup = log_read_tools.get_first_last_line_list(logFileString)
 #result.append({"startLine": startLine, "lastLine": lastLine, "passed": passed, "testnum": testnum, "summary": summary})
 #startLine, lastLine, passed, testnum, summary, startMarker, endMarker
 print("======== SUMMARY ========\n")
@@ -81,7 +81,7 @@ else:
             passCount += 1
         else:
             incompleteCount += 1
-        
+
         addendumStr = ""
         if foundAssert or foundFailure:
             addendumStr += "!!!!"
@@ -89,12 +89,12 @@ else:
             addendumStr += "[Found assert]"
         if foundFailure:
             addendumStr += "[Found SEVERE"
-        
+
         reportStr = testNumStr + ". " + result + " " + name + "\t" + "(" + str(numLines) + " lines)\t" + addendumStr
         buildReport += "\t" + reportStr + "\n"
     print(buildReport)
     print(str(passCount) + " passing\t" + str(failCount) + " failing\t" + str(incompleteCount) + " incomplete")
- 
+
 print("\n=======================")
 
 print("Please note! This software is vulnerable to bugs and issues. Do not assume it is working properly")
@@ -104,7 +104,7 @@ print("Additionally avoid the following strings in variable names containing \".
 print("")
 
 # Step 2 Figure out the intent. Which log do they want to see
-import classMonitoringTools
+import class_monitoring_tools
 
 hasClassTracing = False
 hasLogTracing = False
@@ -119,25 +119,25 @@ if settings["multipleTests"] is True:
                 settings["testIndex"] = idx
                 theBreakupSlice = part
                 break
-            
+
         if (not "testIndex" in settings):
             print("Couldnt find a test with that num.. try again")
-            
+
     # NOTE: Should accomodate when testNum does not equal an index!
     theSlice = logFileString[theBreakupSlice["startMarker"]:theBreakupSlice["endMarker"]]
     hasLogSizeIssues = theSlice.count("\n") > 10000
-    hasClassTracing = classMonitoringTools.evidenceOfClassMonitoringInString(theSlice)
+    hasClassTracing = class_monitoring_tools.evidence_of_class_monitoring_in_string(theSlice)
 else:
     settings["testNum"] = "N/A"
     settings["testIndex"] = "N/A"
     hasLogSizeIssues = logFileString.count("\n") > 10000
-    hasClassTracing = classMonitoringTools.evidenceOfClassMonitoringInString(logFileString)
+    hasClassTracing = class_monitoring_tools.evidence_of_class_monitoring_in_string(logFileString)
 
 print()
 print("Will print below if there is anything interseting about the log.....VVVV")
 if (hasLogSizeIssues):
     print("This log is over 10k lines")
-    
+
 if (not hasClassTracing):
     print("No class tracking seen")
 
@@ -145,7 +145,7 @@ if (not hasLogTracing):
     print("No log tracing seen")
 
 # Step 3 Determine various settings
-import settingsManagement
+import settings_management
 specificSubSettings = [
     {"shortName":"Show In Main Log", "longName":"You can hide these statements while still having them active in the top window", "default": False, "relevancy": False, "subSettings":[
         {"shortName":"Leave Placeholder", "longName":"If a statement is hidden a placeholder is left", "default": True, "relevancy": False, "subSettings":[]}
@@ -160,11 +160,11 @@ mainSettings = [
     {"shortName":"Remember Highlights", "longName":"You can highlight with right clicks. With this on your highlighted words will be saved", "default": True, "relevancy": False, "subSettings":[]},
     {"shortName":"Truncate To 10k lines", "longName":"Truncate the log view to 10,000 lines", "default": True, "relevancy": "SIZE",  "subSettings":[]},
 ]
-settingsManagement.printDescriptions(mainSettings)
-specificSettings = settingsManagement.defaultSettingsFromArray(mainSettings)
+settings_management.printDescriptions(mainSettings)
+specificSettings = settings_management.defaultSettingsFromArray(mainSettings)
 happy = False
 while (not happy):
-    settingsManagement.printSettingsArray(mainSettings, [hasLogSizeIssues,hasLogTracing,hasClassTracing, hasLogTracing or hasClassTracing], specificSettings)
+    settings_management.printSettingsArray(mainSettings, [hasLogSizeIssues,hasLogTracing,hasClassTracing, hasLogTracing or hasClassTracing], specificSettings)
     checkIfHappy = getNextArgOrAsk("Do you like the settings as set [Y/n]: ")
     if (len(checkIfHappy) != 1):
         print("Invalid input....")
@@ -172,29 +172,14 @@ while (not happy):
         happy = True
     else:
         print("Valid format:1.1=Y,2=N")
-        commandStr = getNextArgOrAsk("Please input a command string: ")   
-        specificSettings = settingsManagement.commandChanges(commandStr, specificSettings, mainSettings)
+        commandStr = getNextArgOrAsk("Please input a command string: ")
+        specificSettings = settings_management.commandChanges(commandStr, specificSettings, mainSettings)
 
 assert(happy)
 print("GREAT!")
 
 
-settings = {**settings, **specificSettings} 
-
-#'userSettings.Top View'
-#'userSettings.Top View.Class Update Summary'
-#'userSettings.Top View.Class Update Summary.Show In Main Log'
-#'userSettings.Top View.Class Update Summary.Show In Main Log.Leave Placeholder'
-#'userSettings.Top View.Class Update Summary.Include Past'
-#'userSettings.Top View.Log Trace'
-#'userSettings.Top View.Log Trace.Show In Main Log'
-#'userSettings.Top View.Log Trace.Show In Main Log.Leave Placeholder'
-#'userSettings.Top View.Log Trace.Include Past'
-#'userSettings.Remember Highlights'
-#'userSettings.Truncate To 10k lines'
-#'multipleTests'
-#'testNum': '2'
-#'testIndex': 1
+settings = {**settings, **specificSettings}
 
 # Step 4 Prepare the log for this thing
 # GOAL Prepare 2 things (of hidden things)
@@ -212,7 +197,7 @@ else:
     logText = logFileString[rec["startMarker"]:rec["endMarker"]]
     if (settings["userSettings.Top View.Class Update Summary.Include Past"] or settings["userSettings.Top View.Log Trace.Include Past"]):
         preLogText = logFileString[0:rec["startMarker"]]
-    
+
 print("a", end = '')
 
 # Step 4b prepare the pre log (if there is one)
@@ -220,10 +205,10 @@ summaryLines = ""
 if (len(preLogText) > 0):
     summaryLines += "####### Collapsed Previous Summary #######" + "\n"
     if (settings["userSettings.Top View.Class Update Summary.Include Past"]):
-        summaryLines += classMonitoringTools.stringStatementOfDictionary(classMonitoringTools.getStateDictionary(preLogText,0,0)) + "\n"
+        summaryLines += class_monitoring_tools.string_statement_of_dictionary(class_monitoring_tools.get_state_dictionary(preLogText,0,0)) + "\n"
     summaryLines += "##########################################" + "\n"
-print("b", end = '') 
-    
+print("b", end = '')
+
 # Step 4c truncate the lines if needed
 if (settings["userSettings.Truncate To 10k lines"]):
     progress = 0
@@ -234,7 +219,7 @@ if (settings["userSettings.Truncate To 10k lines"]):
         if (count > 10000 or progress == -1):
             break
         progress += 1
-        
+
     if (count > 10000):
         print("Did truncate")
         logText = logText[0:progress]
@@ -256,39 +241,39 @@ classSummaries_LeavePlaceholder = (not classSummaries_AppearInLog) and classSumm
 # Step 4e.b Make assertions to check
 if (classSummaries_LeavePlaceholder):
     assert(not classSummaries_AppearInLog)
-    
+
 # Step 4e.c Do the actual processing
 #print("\nPRE: \n------------------------------\n" + "\n".join(linesOfFullLog) + "\n------------------------------")
-import heiarchicalDictionaryTools
+import heiarchical_dictionary_tools
 specialLogUpdates = []
 templist = []
 while linesOfFullLog:
     line = linesOfFullLog.pop(0)
     displayLine = True
-    
-    isClassMonitoring = classMonitoringTools.evidenceOfClassMonitoringInString(line)
+
+    isClassMonitoring = class_monitoring_tools.evidence_of_class_monitoring_in_string(line)
     if (isClassMonitoring):
         # 1. Clean the class monitoring out of the string
-        cleanedLine = classMonitoringTools.cleanClassMonitoringFromString(line).strip()
+        cleanedLine = class_monitoring_tools.clean_class_monitoring_from_string(line).strip()
         hasOtherContent = len(cleanedLine) != 0
         if (classSummaries_On):
-            classMonitoringDict = classMonitoringTools.getStateDictionary(line, 0, 0)
-            heiarchicalMontoringDict = heiarchicalDictionaryTools.heiarchicalDictOfClassMonitoringDictionary(classMonitoringDict)
+            classMonitoringDict = class_monitoring_tools.get_state_dictionary(line, 0, 0)
+            heiarchicalMontoringDict = heiarchical_dictionary_tools.heiarchicalDictOfClassMonitoringDictionary(classMonitoringDict)
             specialLogUpdates.append({"line":len(templist),"stateDict":heiarchicalMontoringDict, "reportTitle":"Object Update Montoring"})
-            
+
         if (classSummaries_AppearInLog):
             if (classSummaries_LeavePlaceholder):
-                line = cleanedLine + classMonitoringTools.getPlaceholder()
+                line = cleanedLine + class_monitoring_tools.get_placeholder()
             # No changes
         else:
             if (classSummaries_LeavePlaceholder):
-                line = cleanedLine + classMonitoringTools.getPlaceholder()
+                line = cleanedLine + class_monitoring_tools.get_placeholder()
             else:
                 line = cleanedLine
-            
+
     if (line == ""):
         displayLine = False
-        
+
     if displayLine:
         templist.append(line)
 while templist:
@@ -324,5 +309,5 @@ print("======== ARGUMENTS =======\n\n" + reportArgs + "\n\n=========")
 
 # Step 6 Import old highlights
 
-import smartLogView
-smartLogView.openDisplay(width, height, linesOfFullLog, specialLogUpdates, settings["userSettings.Top View"], settings["userSettings.Remember Highlights"])
+import smart_log_view
+smart_log_view.open_display(width, height, linesOfFullLog, specialLogUpdates, settings["userSettings.Top View"], settings["userSettings.Remember Highlights"])
