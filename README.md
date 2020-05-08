@@ -48,7 +48,7 @@ setuptools
 ```
 And then get tkinter set up by following [their instructions](https://tkdocs.com/tutorial/install.html)
 
-
+*Please* star this repository and add yourself to the [mailing list](https://docs.google.com/forms/d/e/1FAIpQLSd4fPueq41fnBUC0aKEtaM3WC31PLlD0ZdXX7NpaGH-u3LweQ/viewform?usp=sf_link) so that you get updates while this is in development. This is CRITICAL so that you get bug fixes and accuracy errors quickly.
 
 ### Getting started with highlighting
 
