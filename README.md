@@ -14,6 +14,7 @@ This is a beta software. I wrote this very quickly while also trying to get thro
 - Add jumpt to line
 - Add stable upper log viewing
 - Implement moveable divider in upper log
+- Make more general (EX: move classMonitoringTools out of classMonitoringTools)
 
 ## Feature List
 
