@@ -108,7 +108,7 @@ print("")
 import state_monitoring_tool
 
 class_monitor = state_monitoring_tool.StateMonitoringTool()
-state_monitor = state_monitoring_tool.StateMonitoringTool(start_delimiter="${", end_delimiter="}$")
+state_monitor = state_monitoring_tool.StateMonitoringTool(start_delimiter="${", end_delimiter="}$", level_separator="|")
 
 hasClassTracing = False
 has_state_tracing = False

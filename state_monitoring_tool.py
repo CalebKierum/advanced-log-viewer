@@ -1,6 +1,6 @@
 class StateMonitoringTool:
 
-    def __init__(self, start_delimiter = "<<<", end_delimiter = ">>>", update_separator = ",", level_separator = ".", placeholder_text="Placeholder"):
+    def __init__(self, start_delimiter = "<<<", end_delimiter = ">>>", update_separator = " & ", level_separator = ".", placeholder_text="Placeholder"):
         self.start_delimiter = start_delimiter
         self.end_delimiter = end_delimiter
         self.update_separator = update_separator
@@ -69,13 +69,20 @@ class StateMonitoringTool:
                     print("ALERT! There is a statent inside of a clas monitoring thing that\
                         does not have an equals... sketchy")
                     continue
-                if "," in part:
+                if self.update_separator in part:
                     print("ALERT! There shouldnt be two commas by eachother in a class monitoring\
                         statement..... sketchy")
 
                 pieces = part.split("=")
-                assert len(pieces) == 2
-                build_up[pieces[0]] = pieces[1]
+                assert len(pieces) >= 2
+                lastPart = ""
+                for i in range(len(pieces)):
+                    if i >= 1:
+                        lastPart += pieces[i]
+                        if i != len(pieces) - 1:
+                            lastPart += "="
+
+                build_up[pieces[0]] = lastPart
 
             progress = end_index
 
