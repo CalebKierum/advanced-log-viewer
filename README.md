@@ -20,6 +20,7 @@ This is a beta software. I wrote this very quickly while also trying to get thro
 - Make more general (EX: move classMonitoringTools out of classMonitoringTools)
 
 ## Feature List
+![Window with feature breakdown](Images/breakdown.png)
 
 ### Highlighting
 Right out of the box you can view any log with highlighting.
