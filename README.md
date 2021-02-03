@@ -71,7 +71,10 @@ To populate the upper view you will need to add the `dslabs/Plugin/Alt.java` fil
 
 ### Populating DSLabs Summary View
 #### Attaching State Updates
-State updates track any value you want to conceptually follow.
+
+![State Updates](Images/State%20Update%20Monitoring.png)
+
+State updates track any value you want to follow even if it isn't a property.
 All you need to do is make calls to `ALT.log(...)` which can take any length of arguments.
 These arguments should be like key paths to the value you are logging for example to have the summary view show whether each given server is a primary or a backup you might have your server code call
 ```
@@ -104,9 +107,10 @@ Server
     server2.state = backup
 ```
 
-![State Updates](Images/State%20Update%20Monitoring.png)
 
 #### Attaching Class Updates
+![Class Updates](Images/Object%20Update%20Monitoring.png)
+
 This framework can also automatically track your Node's and their state (including private state). 
 
 To set this up you need to let `ALT` know about the object. Just pass the node into the framework with `ALT.trackNode(object)` at some point... preferably in the constructor. For the most part ALT will take care of everything as it holds a weak reference so it should not effect tests.
@@ -124,8 +128,6 @@ this makes sure that the object is tracked even after de-serialization
 In order to avoid log clutter you do need to call `refresh()` every time you have changed a few state items.
 It is essentially a flushing mechanism that helps small updates be batched into larger ones within the log.
 I recommend calling refresh from the end of every message handler etc.
-
-![Class Updates](Images/Object%20Update%20Monitoring.png)
 
 ## Feature Requests
 Please open any and all feature requests as Issues
